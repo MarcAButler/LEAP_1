@@ -49,7 +49,7 @@ public class Scanner {
         }
 
         tokens.add(new Token(EOF, "", null, line));
-        return null;
+        return tokens;
     }
 
     private boolean isAtEnd()
