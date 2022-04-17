@@ -7,8 +7,8 @@ import java.util.Map;
 
 import static com.craftinginterpreters.lua.TokenType.*;
 
-public class Scanner {
-    
+public class Scanner
+{
     private final String source;
     private final List<Token> tokens = new ArrayList<>();
 
@@ -119,7 +119,6 @@ public class Scanner {
                 {
                     Lua.error(line, "Unexpected character.");
                 }
-                Lua.error(line, "Unexpected character.");
                 break;
         }
     }

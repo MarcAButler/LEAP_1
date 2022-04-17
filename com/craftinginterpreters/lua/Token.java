@@ -1,6 +1,7 @@
 package com.craftinginterpreters.lua;
 
-public class Token {
+public class Token 
+{
     
     final TokenType type;
     final String lexeme;
