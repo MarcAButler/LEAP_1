@@ -13,7 +13,7 @@ enum TokenType
 
     // One or two character tokens
     EQUAL_EQUAL, LESS_EQUAL, GREATER_EQUAL, EQUAL, LESS,
-    GREATER, TILDE, TILDE_EQUAL,
+    GREATER, TILDE, TILDE_EQUAL, NEW_LINE,
 
     // Literals
     IDENTIFIER, STRING, NUMBER,

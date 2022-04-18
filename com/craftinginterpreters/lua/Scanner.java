@@ -106,6 +106,9 @@ public class Scanner
             case '\t':
                 break;
             case '\n':
+            // Because we are using Lua, we consume a add a NewLine character
+            // in order to complete writing statements
+                addToken(NEW_LINE);
                 line++;
                 break;
             case '"': string(); break;

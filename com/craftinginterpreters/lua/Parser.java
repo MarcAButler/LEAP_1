@@ -1,5 +1,6 @@
 package com.craftinginterpreters.lua;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.craftinginterpreters.lua.TokenType.*;
@@ -16,21 +17,45 @@ public class Parser
         this.tokens = tokens;
     }
 
-    Expr parse()
+    List<Stmt> parse()
     {
-        try
+        List<Stmt> statements = new ArrayList<Stmt>();
+        while (!isAtEnd())
         {
-            return expression();
+            statements.add(statement());
         }
-        catch (ParseError error)
-        {
-            return null;
-        }
+        return statements;
     }
 
     private Expr expression()
     {
         return equality();
+    }
+
+    private Stmt statement()
+    {
+        if (match(PRINT)) return printStatement();
+        return expressionStatement();
+    }
+
+    private Stmt printStatement()
+    {
+        Expr value = expression();
+        // [!] Expressions do not end with a ';' in Lua nor do we consume
+        // a NEW_LINE denoting the end of the expression 
+        // consume(SEMICOLON, "Expect ';' after value.");
+        //consume(NEW_LINE, "Expect 'NEW_LINE' after value.");
+        return new Stmt.Print(value);
+    }
+
+    private Stmt expressionStatement()
+    {
+        Expr expr = expression();
+        // [!] Expressions do not end with a ';' in Lua nor do we consume
+        // a NEW_LINE denoting the end of the expression 
+        //consume(SEMICOLON, "Expect ';' after expression.");
+        //consume(NEW_LINE, "Expect 'NEW_LINE' after value.");
+        return new Stmt.Expression(expr);
     }
 
     private Expr equality()
@@ -122,7 +147,9 @@ public class Parser
         if (match(TRUE)) return new Expr.Literal(true);
         if (match(NIL)) return new Expr.Literal(null);
 
-        if (match(NUMBER, STRING))
+        // [!] Is a NEW_LINE considered to be a literal? and if so,
+        // should we distinguish it from NUMBER and STRING?
+        if (match(NUMBER, STRING, NEW_LINE))
         {
             return new Expr.Literal(previous().literal);
         }

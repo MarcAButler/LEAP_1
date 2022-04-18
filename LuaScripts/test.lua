@@ -111,3 +111,8 @@ print(table.concat(myTable))
 print(table.concat(myTable, ", "))
 
 -- You can have multiple dimensional tables and can populate via for loops
+
+print "hi there" print "test"
+print "another hi there"print "another test"
+-- [NOTE] does not need parentheses
+-- [NOTE] statements can be placed on one line
