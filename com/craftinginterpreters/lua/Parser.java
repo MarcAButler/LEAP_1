@@ -22,7 +22,7 @@ public class Parser
         List<Stmt> statements = new ArrayList<Stmt>();
         while (!isAtEnd())
         {
-            statements.add(statement());
+            statements.add(declaration());
         }
         return statements;
     }
@@ -30,6 +30,23 @@ public class Parser
     private Expr expression()
     {
         return equality();
+    }
+
+    private Stmt declaration()
+    {
+        try
+        {
+            // [!] If there is an IDENTIFIER and a "="
+            // we will declare it as a variable
+            if (match(IDENTIFIER)) return varDeclaration();
+
+            return statement();
+        }
+        catch (ParseError error)
+        {
+            synchronize();
+            return null;
+        }
     }
 
     private Stmt statement()
@@ -46,6 +63,22 @@ public class Parser
         // consume(SEMICOLON, "Expect ';' after value.");
         //consume(NEW_LINE, "Expect 'NEW_LINE' after value.");
         return new Stmt.Print(value);
+    }
+
+    // Parsing a Lua variable declaration
+    private Stmt varDeclaration()
+    {
+        // Token name = consume(IDENTIFIER, "Expect variable name.");
+        Token name = previous();
+
+        // Handle variable intialization
+        Expr initializer = null;
+        if (match(EQUAL))
+        {
+            initializer = expression();
+        }
+
+        return new Stmt.Var(name, initializer);
     }
 
     private Stmt expressionStatement()
@@ -152,6 +185,12 @@ public class Parser
         if (match(NUMBER, STRING, NEW_LINE))
         {
             return new Expr.Literal(previous().literal);
+        }
+
+        // Parsing Lua variable expression
+        if (match(IDENTIFIER))
+        {
+            return new Expr.Variable(previous());
         }
 
         if (match(LEFT_PAREN))

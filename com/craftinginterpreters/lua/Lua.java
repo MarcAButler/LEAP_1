@@ -63,12 +63,16 @@ public class Lua
         Scanner scanner = new Scanner(source);
         List<Token> tokens = scanner.scanTokens();
 
+        //System.out.println(tokens);
+
         Parser parser = new Parser(tokens);
         List<Stmt> statements = parser.parse();
 
+        //System.out.println(statements);
+
         // Stop if there was a syntax error.
         if (hadError) return;
-        
+            
         interpreter.interpret(statements);
         
         //System.out.println(new AstPrinter().print(expression));
