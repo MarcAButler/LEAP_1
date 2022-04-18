@@ -4,11 +4,11 @@ enum TokenType
 {
     // Single-character tokens
     LEFT_PAREN, RIGHT_PAREN, LEFT_BRACE, RIGHT_BRACE, COLON, SEMICOLON,
-    COMMA, PLUS, HYPHEN, STAR, SLASH, EXPONENT,
+    COMMA, PLUS, HYPHEN, STAR, SLASH, EXPONENT, DOT, DOT_DOT,
 
     // [DEBATABLE]
     // LEFT_SQUARE_BRACKET, RIGHT_SQUARE_BRACKET, COLON_COLON.
-    // DOT, DOT_DOT, DOT_DOT_DOT,
+    // DOT_DOT_DOT,
     // MODULUS, POUND
 
     // One or two character tokens

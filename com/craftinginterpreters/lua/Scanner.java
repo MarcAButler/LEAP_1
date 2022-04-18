@@ -98,6 +98,9 @@ public class Scanner
             // Because Lua is a free-form language, it will ignore spaces and comments
             // between lexical elements (tokens), expect as delimters between two tokens
             // Note that it will not through a error, however
+            case '.':
+                addToken(match('.') ? DOT_DOT : DOT);
+                break;
             case ' ':
             case '\r':
             case '\t':

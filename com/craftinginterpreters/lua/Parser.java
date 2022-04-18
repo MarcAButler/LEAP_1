@@ -49,9 +49,24 @@ public class Parser
 
     private Expr comparison()
     {
-        Expr expr = term();
+        Expr expr = concatenation();
 
         while (match(GREATER, GREATER_EQUAL, LESS, LESS_EQUAL))
+        {
+            Token operator = previous();
+            Expr right = concatenation();
+            expr = new Expr.Binary(expr, operator, right);
+        }
+
+        return expr;
+    }
+
+    // [!] 
+    private Expr concatenation()
+    {
+        Expr expr = term();
+
+        while (match(DOT_DOT))
         {
             Token operator = previous();
             Expr right = term();
