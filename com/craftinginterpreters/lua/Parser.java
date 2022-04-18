@@ -29,7 +29,7 @@ public class Parser
 
     private Expr expression()
     {
-        return equality();
+        return assignment();
     }
 
     private Stmt declaration()
@@ -52,6 +52,9 @@ public class Parser
     private Stmt statement()
     {
         if (match(PRINT)) return printStatement();
+        // If there is an "if" statement with a "then" or a loop with a "do"
+        // a block has begun
+        if (match(THEN, DO)) return new Stmt.Block(block());
         return expressionStatement();
     }
 
@@ -89,6 +92,39 @@ public class Parser
         //consume(SEMICOLON, "Expect ';' after expression.");
         //consume(NEW_LINE, "Expect 'NEW_LINE' after value.");
         return new Stmt.Expression(expr);
+    }
+
+    private List<Stmt> block()
+    {
+        List<Stmt> statements = new ArrayList<>();
+
+        while (!check(END) && !isAtEnd())
+        {
+            statements.add(declaration());
+        }
+
+        consume(END, "Expect 'END' after block.");
+        return statements;
+    }
+
+    private Expr assignment()
+    {
+        Expr expr = equality();
+
+        if (match(EQUAL))
+        {
+            Token equals = previous();
+            Expr value = assignment();
+
+            if (expr instanceof Expr.Variable)
+            {
+                Token name = ((Expr.Variable)expr).name;
+                return new Expr.Assign(name, value);
+            }
+            error(equals, "Invalid assignment target.");
+        }
+
+        return expr;
     }
 
     private Expr equality()
