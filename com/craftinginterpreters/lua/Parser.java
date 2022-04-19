@@ -53,6 +53,7 @@ public class Parser
     {
         if (match(IF)) return ifStatement();
         if (match(PRINT)) return printStatement();
+        if (match(WHILE)) return whileStatement();
         // If there is an "if" statement with a "then" or a loop with a "do"
         // a block has begun
         if (match(THEN, DO)) return new Stmt.Block(block());
@@ -100,6 +101,15 @@ public class Parser
         }
 
         return new Stmt.Var(name, initializer);
+    }
+
+    private Stmt whileStatement()
+    {
+        // [!] Note this is Lua, we do not check for parentheses
+        Expr condition = expression();
+        Stmt body = statement();
+
+        return new Stmt.While(condition, body);
     }
 
     private Stmt expressionStatement()

@@ -1,3 +1,9 @@
 a = 1
-b = 2
-print a + b
+c = 10
+
+while a < c do
+    print a
+    a = a + 1
+    print "after increment: " 
+    print a
+end

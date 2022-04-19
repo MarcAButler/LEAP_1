@@ -26,6 +26,9 @@ public class Scanner
         keywords.put("false", FALSE);
         keywords.put("function", FUNCTION);
         keywords.put("if", IF);
+        keywords.put("then", THEN);
+        keywords.put("do", DO);
+        keywords.put("end", END);
         keywords.put("nil", NIL);
         keywords.put("or", OR);
         keywords.put("print", PRINT);
