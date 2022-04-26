@@ -11,6 +11,7 @@ abstract class Stmt
     R visitIfStmt(If stmt);
     R visitPrintStmt(Print stmt);
     R visitVarStmt(Var stmt);
+    R visitLocalVarStmt(LocalVar stmt);
     R visitWhileStmt(While stmt);
   }  static class Block extends Stmt
   {
@@ -88,6 +89,23 @@ abstract class Stmt
     <R> R accept(Visitor<R> visitor)
     {
       return visitor.visitVarStmt(this);
+    }
+
+    final Token name;
+    final Expr initializer;
+  }
+  static class LocalVar extends Stmt
+  {
+    LocalVar(Token name, Expr initializer)
+    {
+      this.name = name;
+      this.initializer = initializer;
+    }
+
+    @Override
+    <R> R accept(Visitor<R> visitor)
+    {
+      return visitor.visitLocalVarStmt(this);
     }
 
     final Token name;

@@ -38,6 +38,7 @@ public class Parser
         {
             // [!] If there is an IDENTIFIER and a "="
             // we will declare it as a variable
+            //if (match(LOCAL) && peek().type == IDENTIFIER) return varDeclaration();
             if (match(IDENTIFIER)) return varDeclaration();
 
             return statement();
@@ -54,6 +55,10 @@ public class Parser
         if (match(IF)) return ifStatement();
         if (match(PRINT)) return printStatement();
         if (match(WHILE)) return whileStatement();
+        // [!] Should this go here?
+        //if (match(LOCAL)) return localStatement();
+        //if (match(LOCAL)) return varDeclaration();
+
         // If there is an "if" statement with a "then" or a loop with a "do"
         // a block has begun
         if (match(THEN, DO)) return new Stmt.Block(block());
@@ -87,6 +92,11 @@ public class Parser
         return new Stmt.Print(value);
     }
 
+    // private Stmt localStatement()
+    // {
+    //     return declaration();
+    // }
+
     // Parsing a Lua variable declaration
     private Stmt varDeclaration()
     {
@@ -100,7 +110,14 @@ public class Parser
             initializer = expression();
         }
 
-        return new Stmt.Var(name, initializer);
+        if (previous().type == LOCAL)
+        {
+            return new Stmt.LocalVar(name, initializer);
+        }
+        else
+        {
+            return new Stmt.Var(name, initializer);
+        }
     }
 
     private Stmt whileStatement()
@@ -273,7 +290,8 @@ public class Parser
 
         // [!] Is a NEW_LINE considered to be a literal? and if so,
         // should we distinguish it from NUMBER and STRING?
-        if (match(NUMBER, STRING, NEW_LINE))
+        //if (match(NUMBER, STRING, NEW_LINE))
+        if (match(NUMBER, STRING))
         {
             return new Expr.Literal(previous().literal);
         }

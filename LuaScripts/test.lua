@@ -1,6 +1,7 @@
 -- [DATA AND TYPES]
 -- Useless comment
 
+
 myVar = "It is cool"
 
 -- Another way to print
