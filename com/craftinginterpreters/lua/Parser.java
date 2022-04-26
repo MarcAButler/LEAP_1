@@ -38,7 +38,7 @@ public class Parser
         {
             // [!] If there is an IDENTIFIER and a "="
             // we will declare it as a variable
-            //if (match(LOCAL) && peek().type == IDENTIFIER) return varDeclaration();
+            if (match(LOCAL) && peek().type == IDENTIFIER) return varLocalDeclaration();
             if (match(IDENTIFIER)) return varDeclaration();
 
             return statement();
@@ -103,21 +103,35 @@ public class Parser
         // Token name = consume(IDENTIFIER, "Expect variable name.");
         Token name = previous();
 
+        
         // Handle variable intialization
         Expr initializer = null;
+
         if (match(EQUAL))
         {
             initializer = expression();
         }
 
-        if (previous().type == LOCAL)
+        return new Stmt.Var(name, initializer);
+    }
+
+    private Stmt varLocalDeclaration()
+    {
+        advance();
+        // Token name = consume(IDENTIFIER, "Expect variable name.");
+        Token name = previous();
+
+
+        // Handle variable intialization
+        Expr initializer = null;
+
+        if (match(EQUAL))
         {
-            return new Stmt.LocalVar(name, initializer);
+            initializer = expression();
         }
-        else
-        {
-            return new Stmt.Var(name, initializer);
-        }
+
+        System.out.println("Defining local variable " + name);
+        return new Stmt.LocalVar(name, initializer);
     }
 
     private Stmt whileStatement()
