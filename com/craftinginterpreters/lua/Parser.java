@@ -115,6 +115,10 @@ public class Parser
         {
             initializer = expression();
         }
+        else
+        {
+            throw error(peek(), "Expect '='.");
+        }
 
         return new Stmt.Var(name, initializer);
     }
