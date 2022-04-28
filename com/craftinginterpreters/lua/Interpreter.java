@@ -1,8 +1,9 @@
 package com.craftinginterpreters.lua;
 
 import java.util.List;
+import java.util.Scanner;
 
-class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> 
+class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Object> 
 {
     private Environment globalEnvironment = new Environment();
     private Environment environment = globalEnvironment;
@@ -112,6 +113,17 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void>
     }
 
     @Override
+    public String visitInputStmt(Stmt.Input stmt)
+    {
+        // Create a scanner object
+        Scanner scanner = new Scanner(System.in);
+        // Read user input
+        String input = scanner.nextLine();
+        scanner.close();
+        return input;
+    }
+
+    @Override
     public Void visitPrintStmt(Stmt.Print stmt)
     {
         Object value = evaluate(stmt.expression);
@@ -212,6 +224,9 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void>
             case STAR:
                 checkNumberOperands(expr.operator, left, right);
                 return (double)left * (double)right;
+            case EXPONENT:
+                checkNumberOperands(expr.operator, left, right);
+                return Math.pow((double)left, (double)right);
             // For concatenation
             case DOT_DOT:
                 if (left instanceof String && right instanceof String)

@@ -33,6 +33,7 @@ public class GenerateAst
                   "If           : Expr condition, Stmt thenBranch," +
                                 " Stmt elseBranch",
                   "Print        : Expr expression",
+                  "Input        : Expr expression",
                   "Var          : Token name, Expr initializer",
                   "LocalVar     : Token name, Expr initializer",
                   "Repeat       : Stmt body, Expr condition",

@@ -24,11 +24,11 @@ public class Scanner
         keywords.put("and", AND);
         keywords.put("else", ELSE);
         keywords.put("false", FALSE);
-        keywords.put("function", FUNCTION);
         keywords.put("if", IF);
         keywords.put("then", THEN);
         keywords.put("do", DO);
         keywords.put("end", END);
+        keywords.put("input", INPUT);
         keywords.put("nil", NIL);
         keywords.put("or", OR);
         keywords.put("print", PRINT);
@@ -75,6 +75,7 @@ public class Scanner
             case '+': addToken(PLUS); break;
             case ';': addToken(SEMICOLON); break;
             case '*': addToken(STAR); break;
+            case '^': addToken(EXPONENT); break;
             case '/': addToken(SLASH); break;
             case '-':
                 if(match('-'))

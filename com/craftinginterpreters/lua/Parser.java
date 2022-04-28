@@ -54,6 +54,7 @@ public class Parser
     {
         if (match(IF)) return ifStatement();
         if (match(PRINT)) return printStatement();
+        if (match(INPUT)) return inputStatement();
         if (match(WHILE)) return whileStatement();
 
         // The actual repeat - until logic that is hit when a until keyword is found
@@ -103,6 +104,13 @@ public class Parser
         // consume(SEMICOLON, "Expect ';' after value.");
         //consume(NEW_LINE, "Expect 'NEW_LINE' after value.");
         return new Stmt.Print(value);
+    }
+
+    private Stmt inputStatement()
+    {
+        consume(LEFT_PAREN, "Expect '(' after 'print.'");
+        consume(RIGHT_PAREN, "Expect ')' after expression.");
+        return new Stmt.Input(null);
     }
 
     // private Stmt localStatement()
@@ -340,9 +348,23 @@ public class Parser
 
     private Expr factor()
     {
-        Expr expr = unary();
+        Expr expr = exponent();
 
         while(match(SLASH, STAR))
+        {
+            Token operator = previous();
+            Expr right = exponent();
+            expr = new Expr.Binary(expr, operator, right);
+        }
+
+        return expr;
+    }
+
+    private Expr exponent()
+    {
+        Expr expr = unary();
+
+        while(match(EXPONENT))
         {
             Token operator = previous();
             Expr right = unary();
@@ -452,6 +474,7 @@ public class Parser
             switch (peek().type)
             {
                 case IF:
+                case INPUT:
                 case WHILE:
                 case PRINT:
                     return;
