@@ -115,6 +115,12 @@ public class Parser
         {
             initializer = expression();
         }
+        // If the type is a keyword then just get out of this method: return
+        else if (contains(name.type))
+        {
+            return new Stmt.Var(name, initializer);
+        }
+        // Otherwise we throw an error for not properly assigning
         else
         {
             throw error(peek(), "Expect '='.");
@@ -137,9 +143,30 @@ public class Parser
         {
             initializer = expression();
         }
+        // If the type is a keyword then just get out of this method: return
+        else if (contains(name.type))
+        {
+            return new Stmt.LocalVar(name, initializer);
+        }
+        // Otherwise we throw an error for not properly assigning
+        else
+        {
+            throw error(peek(), "Expect '='.");
+        }
 
-        System.out.println("Defining local variable " + name);
         return new Stmt.LocalVar(name, initializer);
+    }
+
+    public static boolean contains(TokenType purposedString)
+    {
+        for (TokenType token : TokenType.values())
+        {
+            if (token == purposedString)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     private Stmt whileStatement()
