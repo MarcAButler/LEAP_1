@@ -84,7 +84,11 @@ public class Parser
 
     private Stmt printStatement()
     {
+        consume(LEFT_PAREN, "Expect '(' after 'print.'");
         Expr value = expression();
+        consume(RIGHT_PAREN, "Expect ')' after expression.");
+
+
         // [!] Expressions do not end with a ';' in Lua nor do we consume
         // a NEW_LINE denoting the end of the expression 
         // consume(SEMICOLON, "Expect ';' after value.");
