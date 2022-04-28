@@ -32,8 +32,10 @@ public class Scanner
         keywords.put("nil", NIL);
         keywords.put("or", OR);
         keywords.put("print", PRINT);
+        keywords.put("repeat", REPEAT);
         keywords.put("true", TRUE);
         keywords.put("local", LOCAL);
+        keywords.put("until", UNTIL);
         keywords.put("while", WHILE);
     }
 

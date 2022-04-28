@@ -12,6 +12,7 @@ abstract class Stmt
     R visitPrintStmt(Print stmt);
     R visitVarStmt(Var stmt);
     R visitLocalVarStmt(LocalVar stmt);
+    R visitRepeatStmt(Repeat stmt);
     R visitWhileStmt(While stmt);
   }  static class Block extends Stmt
   {
@@ -110,6 +111,23 @@ abstract class Stmt
 
     final Token name;
     final Expr initializer;
+  }
+  static class Repeat extends Stmt
+  {
+    Repeat(Stmt body, Expr condition)
+    {
+      this.body = body;
+      this.condition = condition;
+    }
+
+    @Override
+    <R> R accept(Visitor<R> visitor)
+    {
+      return visitor.visitRepeatStmt(this);
+    }
+
+    final Stmt body;
+    final Expr condition;
   }
   static class While extends Stmt
   {

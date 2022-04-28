@@ -55,6 +55,15 @@ public class Parser
         if (match(IF)) return ifStatement();
         if (match(PRINT)) return printStatement();
         if (match(WHILE)) return whileStatement();
+
+        // The actual repeat - until logic that is hit when a until keyword is found
+        //if (match(UNTIL)) return repeatStatement();
+        if (match(REPEAT)) return repeatStatement();
+        
+        // Simply the block constructesd from repeatBlock()
+        //if (match(REPEAT)) return new Stmt.Block(repeatBlock());
+
+
         // [!] Should this go here?
         //if (match(LOCAL)) return localStatement();
         //if (match(LOCAL)) return varDeclaration();
@@ -178,6 +187,17 @@ public class Parser
         return new Stmt.While(condition, body);
     }
 
+    private Stmt repeatStatement()
+    {
+        // The body will be encountered first
+        Stmt body = new Stmt.Block(repeatBlock());
+
+        //consume(UNTIL, "Expect 'until' after statement(s).");
+        Expr condition = expression();
+        
+        return new Stmt.Repeat(body, condition);
+    }
+
     private Stmt expressionStatement()
     {
         Expr expr = expression();
@@ -197,7 +217,20 @@ public class Parser
             statements.add(declaration());
         }
 
-        consume(END, "Expect 'END' after block.");
+        consume(END, "Expect 'end' after block.");
+        return statements;
+    }
+
+    private List<Stmt> repeatBlock()
+    {
+        List<Stmt> statements = new ArrayList<>();
+
+        while (!check(UNTIL) && !isAtEnd())
+        {
+            statements.add(declaration());
+        }
+
+        consume(UNTIL, "Expect 'until' after block.");
         return statements;
     }
 

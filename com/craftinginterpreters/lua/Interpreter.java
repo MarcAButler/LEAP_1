@@ -146,6 +146,19 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void>
     }
 
     @Override
+    public Void visitRepeatStmt(Stmt.Repeat stmt)
+    {
+        do
+        {
+            execute(stmt.body);
+        }
+        // Until is the opposite of while so in order to make while until we must invert with a !
+        while(!isTruthy(evaluate(stmt.condition)));
+
+        return null;
+    }
+
+    @Override
     public Void visitWhileStmt(Stmt.While stmt)
     {
         while(isTruthy(evaluate(stmt.condition)))
