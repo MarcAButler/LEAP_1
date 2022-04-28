@@ -27,8 +27,9 @@ class Environment
         }
 
         if (enclosing != null) return enclosing.get(name);
+        else return TokenType.NIL;
 
-        throw new RuntimeError(name, "Undefined variable '" + name.lexeme + "'.");
+        //throw new RuntimeError(name, "Undefined variable '" + name.lexeme + "'.");
     }
 
     void assign(Token name, Object value)
@@ -44,9 +45,15 @@ class Environment
             enclosing.assign(name, value);
             return;
         }
+        else
+        {
+            // If the variable is not defined we must assign the variable to nil
+            enclosing.assign(name, TokenType.NIL);
+        }
 
-        throw new RuntimeError(name, "Undefined variable '" 
-            + name.lexeme + "'.");
+
+        //throw new RuntimeError(name, "Undefined variable '" 
+        //    + name.lexeme + "'.");
     }
 
     void define(String name, Object value)
