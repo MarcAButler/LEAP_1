@@ -10,7 +10,6 @@ abstract class Stmt
     R visitExpressionStmt(Expression stmt);
     R visitIfStmt(If stmt);
     R visitPrintStmt(Print stmt);
-    R visitInputStmt(Input stmt);
     R visitVarStmt(Var stmt);
     R visitLocalVarStmt(LocalVar stmt);
     R visitRepeatStmt(Repeat stmt);
@@ -75,21 +74,6 @@ abstract class Stmt
     <R> R accept(Visitor<R> visitor)
     {
       return visitor.visitPrintStmt(this);
-    }
-
-    final Expr expression;
-  }
-  static class Input extends Stmt
-  {
-    Input(Expr expression)
-    {
-      this.expression = expression;
-    }
-
-    @Override
-    <R> R accept(Visitor<R> visitor)
-    {
-      return visitor.visitInputStmt(this);
     }
 
     final Expr expression;

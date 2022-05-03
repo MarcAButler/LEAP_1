@@ -24,7 +24,9 @@ public class GenerateAst
             "Literal : Object value",
             "Logical : Expr left, Token operator, Expr right",
             "Unary : Token operator, Expr right",
-            "Variable : Token name"
+            "Variable : Token name",
+            // Put input expr
+            "Input : "
         ));
 
         defineAst(outputDir, "Stmt", Arrays.asList(
@@ -33,7 +35,6 @@ public class GenerateAst
                   "If           : Expr condition, Stmt thenBranch," +
                                 " Stmt elseBranch",
                   "Print        : Expr expression",
-                  "Input        : Expr expression",
                   "Var          : Token name, Expr initializer",
                   "LocalVar     : Token name, Expr initializer",
                   "Repeat       : Stmt body, Expr condition",
@@ -102,10 +103,16 @@ public class GenerateAst
 
         // Store parameters in the fields
         String[] fields = fieldList.split(", ");
-        for (String field : fields)
+
+        // If no parameters / empty string we do not split nor loop
+        if (fieldList.length() != 0) 
         {
-            String name = field.split(" ")[1];
-            writer.println("      this." + name + " = " + name + ";");
+
+            for (String field : fields)
+            {
+                String name = field.split(" ")[1];
+                writer.println("      this." + name + " = " + name + ";");
+            }
         }
 
         writer.println("    }");
@@ -118,13 +125,16 @@ public class GenerateAst
         writer.println("      return visitor.visit" + className + baseName + "(this);");
         writer.println("    }");
         
-
-        // Fields
-        writer.println();
-        for (String field : fields)
+        if (fieldList.length() != 0)
         {
-            writer.println("    final " + field + ";");
+            // Fields
+            writer.println();
+            for (String field : fields)
+            {
+                writer.println("    final " + field + ";");
+            }
         }
+
         writer.println("  }");
 
     }

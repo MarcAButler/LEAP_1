@@ -113,13 +113,13 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Object>
     }
 
     @Override
-    public String visitInputStmt(Stmt.Input stmt)
+    public String visitInputExpr(Expr.Input expr)
     {
         // Create a scanner object
         Scanner scanner = new Scanner(System.in);
         // Read user input
         String input = scanner.nextLine();
-        scanner.close();
+        //scanner.close();
         return input;
     }
 
