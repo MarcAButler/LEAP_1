@@ -29,6 +29,8 @@ public class Lua
         {
             runPrompt();
         }
+        // Close the the inputscanner 
+        interpreter.inputScanner.close();
     }
 
     public static void runFile(String path) throws IOException
