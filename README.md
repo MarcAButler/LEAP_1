@@ -1,7 +1,22 @@
-LEAP_1
+#LEAP_1
 
-This is a tool that aims to recreate Lua with Java as its host language.
+##This is a tool that aims to recreate Lua with Java as its host language.
+This tool is inspired by [Crafting Interpreters and Lox](https://github.com/munificent/craftinginterpreters) and [Lua](https://www.lua.org/)
 
+## Set Up
+### REPL
+* Navigate to project root
+* With Java in PATH do `java com.craftinginterpreters.lua.Lua`
+
+### Custom Scripts
+* Navigate to project root
+* With Java in PATH do `java com.craftinginterpreters.lua.Lua ./NAME/OF/SCRIPT/.lua`
+
+## Compiling
+* To compile do `javac com/craftinginterpreters/lua/*.java`
+
+
+## EBNF
 
 chunk ::= block
 
