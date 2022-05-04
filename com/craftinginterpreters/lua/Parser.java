@@ -86,6 +86,7 @@ public class Parser
         Stmt elseBranch = null;
         if (match(ELSE))
         {
+            System.out.println("I AM BEING CALLED");
             elseBranch = statement();
         }
 
