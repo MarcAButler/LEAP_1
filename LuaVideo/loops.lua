@@ -17,7 +17,7 @@ print("")
 
 print("REPEAT-UNTIL LOOP")
 
--- One unique linguistically interesting piece that is unique to Lua is the repeat-until loop
+-- One linguistically interesting piece that is unique to Lua is the repeat-until loop
 -- The repeat until loop is essentially a method that begins a block regardless of whether the
 -- until condition is met. After the first iteration however, the condition is checked and will
 -- only break the loop until the condition is true.

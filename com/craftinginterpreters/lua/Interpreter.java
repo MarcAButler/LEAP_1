@@ -8,6 +8,12 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Object>
     private Environment globalEnvironment = new Environment();
     private Environment environment = globalEnvironment;
 
+    // Handle Input
+    // Create a scanner object
+    // Note that this scanner is from the standard Java library
+    // not our scanner
+    Scanner inputScanner = new Scanner(System.in);
+
     void interpret(List<Stmt> statements)
     {
         try
@@ -113,13 +119,10 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Object>
     }
 
     @Override
-    public String visitInputStmt(Stmt.Input stmt)
+    public String visitInputExpr(Expr.Input expr)
     {
-        // Create a scanner object
-        Scanner scanner = new Scanner(System.in);
         // Read user input
-        String input = scanner.nextLine();
-        scanner.close();
+        String input = inputScanner.nextLine();
         return input;
     }
 

@@ -13,6 +13,7 @@ abstract class Expr
     R visitLogicalExpr(Logical expr);
     R visitUnaryExpr(Unary expr);
     R visitVariableExpr(Variable expr);
+    R visitInputExpr(Input expr);
   }  static class Assign extends Expr
   {
     Assign(Token name, Expr value)
@@ -129,6 +130,18 @@ abstract class Expr
     }
 
     final Token name;
+  }
+  static class Input extends Expr
+  {
+    Input()
+    {
+    }
+
+    @Override
+    <R> R accept(Visitor<R> visitor)
+    {
+      return visitor.visitInputExpr(this);
+    }
   }
 
   abstract <R> R accept(Visitor<R> visitor);

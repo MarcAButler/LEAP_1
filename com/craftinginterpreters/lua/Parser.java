@@ -54,7 +54,7 @@ public class Parser
     {
         if (match(IF)) return ifStatement();
         if (match(PRINT)) return printStatement();
-        if (match(INPUT)) return inputStatement();
+        //if (match(INPUT)) return inputExpression();
         if (match(WHILE)) return whileStatement();
 
         // The actual repeat - until logic that is hit when a until keyword is found
@@ -107,11 +107,11 @@ public class Parser
         return new Stmt.Print(value);
     }
 
-    private Stmt inputStatement()
+    private Expr inputExpression()
     {
         consume(LEFT_PAREN, "Expect '(' after 'print.'");
         consume(RIGHT_PAREN, "Expect ')' after expression.");
-        return new Stmt.Input(null);
+        return new Expr.Input();
     }
 
     // private Stmt localStatement()
@@ -389,6 +389,10 @@ public class Parser
 
     private Expr primary()
     {
+        // Handle input expressions
+        if (match(INPUT)) return inputExpression();
+
+
         if (match(FALSE)) return new Expr.Literal(false);
         if (match(TRUE)) return new Expr.Literal(true);
         if (match(NIL)) return new Expr.Literal(null);
