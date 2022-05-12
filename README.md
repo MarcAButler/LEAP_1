@@ -1,6 +1,6 @@
-#LEAP_1
+# jLua
 
-##This is a tool that aims to recreate Lua with Java as its host language.
+This is a tool that aims to recreate Lua with Java as its host language.
 This tool is inspired by [Crafting Interpreters and Lox](https://github.com/munificent/craftinginterpreters) and [Lua](https://www.lua.org/)
 
 ## Set Up
